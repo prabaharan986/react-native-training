@@ -24,26 +24,25 @@ class Counter extends React.Component {
         )
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
-});
+  });
 
-function mapStateToProps(state) { 
+function mapStateToProps(state) {
     return {
-        ctr : state.counter
+        ctr: state.counter
     }
-    
+
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         inc: () => { dispatch(incrementAction()) },
-        dec: () => { dispatch(decrementAction()) } 
+        dec: () => { dispatch(decrementAction()) }
     }
 }
 
