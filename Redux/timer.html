@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <span id="timer"></span>
+    <button id="toggleAction">STOP</button>
+    <script src="redux.min.js"></script>
+    <script>
+        var START = 'START';
+        var STOP = 'STOP';
+
+        function reducer(state, action) {
+            if (state === undefined) {
+                return 0;
+            }
+            switch (action.type) {
+                case START: return state + 1;
+                case STOP:
+                default: return state;
+            }
+        }
+
+        var store = Redux.createStore(reducer);
+
+        store.subscribe(function () {
+            document.getElementById('timer').innerHTML = store.getState();
+        })
+        var interval;
+        var timer = function () {
+            interval = setInterval(function () {
+                store.dispatch({ type: START })
+            }, 1000);
+        }
+        timer();
+
+        document.getElementById('toggleAction').addEventListener('click', function () {
+            if (this.innerText === STOP) {
+                this.innerText = START;
+                store.dispatch({ type: STOP });
+                clearInterval(interval);
+            } else {
+                this.innerText = STOP;
+                timer();
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

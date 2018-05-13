@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Redux</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <button id="inc">Increment</button>
+    <span id="result">0</span>
+    <button id="dec">Decrement</button>
+    <script src="redux.min.js"></script>
+    <script>
+        var INC = 'INCREMENT';
+        var DEC = 'DECREMEMT';
+
+        function reducer(state, action) {
+            if(state === undefined) {
+                return 0;
+            }
+            switch(action.type){
+                case INC: return state+1;
+                case DEC: return state-1;
+                default: return state;
+            }
+        }
+
+        var store = Redux.createStore(reducer);
+        store.subscribe(function(){
+            document.getElementById('result').innerHTML = store.getState();
+        });
+
+        document.getElementById('inc').addEventListener('click', function(){
+            store.dispatch({type: INC});
+        })
+
+         document.getElementById('dec').addEventListener('click', function(){
+            store.dispatch({type: DEC});
+        })
+    </script>
+</body>
+</html>
