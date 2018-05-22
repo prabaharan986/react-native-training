@@ -4,10 +4,11 @@ import {
 } from "redux-saga/effects";
 import * as actionCreators from "../actionCreators/product"
 import {
-    GET_PRODUCTS, ADD_PRODUCT, GET_PRODUCT
+    GET_PRODUCTS, ADD_PRODUCT, GET_PRODUCT, SEARCH_PRODUCTS
 } from "../actionTypes/product";
+import config from '../config';
 
-let URI = "http://172.16.100.228:4000";
+let URI = config.baseUrl;
 
 function* getProducts(action) {
     try {
@@ -27,23 +28,39 @@ function* getProduct(action) {
     }
 }
 
-// function* addProduct(action) {
-//     try {
-//         let product = yield fetch(`${URI}\products`, {
-//             body: JSON.stringify(action.product),
-//             method: 'POST',
-//             headers: {
-//                 'content-type': 'application/json'
-//             },
-//         }).then(r => r.json());
-//         yield put(actionCreators.addProductSuccess(product))
-//     } catch (error) {
-//         yield put(actionCreators.addProductFailure(error))
-//     }
-// }
+function* addProduct(action) {
+    try {
+        console.log(action);
+        let product = yield fetch(`${URI}/products`, {
+            body: JSON.stringify(action.product),
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+        }).then(r => r.json());
+        
+        yield put(actionCreators.addProductSuccess(product))
+    } catch (error) {
+        yield put(actionCreators.addProductFailure(error))
+    }
+}
+
+function* searchProducts(action) {
+    try {
+        let products = yield fetch(`${URI}/products?q=${action.searchKey}&_page=${action.page}&_limit=${action.limit}`).then(r => r.json());
+        yield put(actionCreators.searchProductsSuccess(products))
+    } catch (error) {
+        yield put(actionCreators.searchProductsFailure(error))
+    }
+}
 
 export function* productWatchers() {
-    yield [takeLatest(GET_PRODUCTS, getProducts), takeLatest(GET_PRODUCT, getProduct)];
+    yield [
+        takeLatest(GET_PRODUCTS, getProducts),
+        takeLatest(GET_PRODUCT, getProduct),
+        takeLatest(ADD_PRODUCT, addProduct),
+        takeLatest(SEARCH_PRODUCTS, searchProducts)
+    ];
 }
 
 

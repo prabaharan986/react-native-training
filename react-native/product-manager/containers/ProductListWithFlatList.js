@@ -11,7 +11,9 @@ import {
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as productActionCreators from "../actionCreators/product";
-let URI = "http://192.168.43.221:4000";
+import config from '../config';
+
+let URI = config.baseUrl;
 class ProductListWithFlatList extends Component {
   constructor(props) {
     super(props);

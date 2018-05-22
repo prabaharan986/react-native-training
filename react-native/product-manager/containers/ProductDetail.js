@@ -3,9 +3,9 @@ import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from "re
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as productActionCreators from "../actionCreators/product";
+import config from '../config';
 
-
-let URI = "http://192.168.43.221:4000";
+let URI = config.baseUrl;
 
 class ProductDetail extends React.Component {
   static navigationOptions = ({ navigation }) => ({

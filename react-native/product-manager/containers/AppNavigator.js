@@ -9,6 +9,7 @@ import React from "react";
 import ProductDetail from "./ProductDetail";
 import AddProduct from "./AddProduct";
 import StoreMap from "./StoreMap";
+import Search from './Search';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import ProductListWithFlatList from "./ProductListWithFlatList";
 
@@ -59,11 +60,34 @@ const AddStack = createStackNavigator(
   }
 );
 
+const SearchStack = createStackNavigator(
+  {
+    Search: {
+      screen: Search
+    }
+  },
+  {
+    initialRouteName: "Search",
+    navigationOptions: {
+      title: "Search",
+      headerStyle: {
+        backgroundColor: "#00ff80"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        textAlign: "center"
+      }
+    }
+  }
+);
+
 export const AppNavigator = createBottomTabNavigator(
   {
     List: ListStack,
     Add: AddStack,
-    Stores: StoreMap
+    Search: SearchStack,
+    Stores: StoreMap,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -74,6 +98,8 @@ export const AppNavigator = createBottomTabNavigator(
           iconName = `ios-list-box${focused ? "" : "-outline"}`;
         } else if (routeName === "Add") {
           iconName = `ios-add-circle${focused ? "" : "-outline"}`;
+        } else if (routeName === "Search") {
+          iconName = `ios-search${focused ? "" : "-outline"}`;
         } else if (routeName === "Stores") {
           return (
             <MaterialIcons

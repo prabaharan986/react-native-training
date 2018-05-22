@@ -7,7 +7,10 @@ import {
     GET_PRODUCT_SUCCESS,
     ADD_PRODUCT,
     ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAILURE
+    ADD_PRODUCT_FAILURE,
+    SEARCH_PRODUCTS,
+    SEARCH_PRODUCTS_SUCCESS,
+    SEARCH_PRODUCTS_FAILURE,
 } from "../actionTypes/product";
 
 export function getProducts(page, limit) {
@@ -70,6 +73,29 @@ export function addProductSuccess(product) {
 export function addProductFailure(error) {
     return {
         type: ADD_PRODUCT_FAILURE,
+        error
+    }
+}
+
+export function searchProducts(searchKey, page, limit) {
+    return {
+        type: SEARCH_PRODUCTS,
+        searchKey,
+        page,
+        limit
+    }
+}
+
+export function searchProductsSuccess(products) {
+    return {
+        type: SEARCH_PRODUCTS_SUCCESS,
+        products
+    }
+}
+
+export function searchProductsFailure(error) {
+    return {
+        type: SEARCH_PRODUCTS_FAILURE,
         error
     }
 }

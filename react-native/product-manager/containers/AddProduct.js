@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Button, TextInput, Picker,Alert,Text,Platform } from 'react-native';
+import { View, StyleSheet, Button, TextInput, Picker, Alert, Text, Platform } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as productActionCreators from "../actionCreators/product";
+import config from '../config';
 
-let URI = "http://192.168.1.101:4000";
+let URI = config.baseUrl;
 
-export default class AddProduct extends Component {
-  static navigationOptions= {
+class AddProduct extends Component {
+  static navigationOptions = {
     title: "Add",
     headerStyle: {
       backgroundColor: "#00ff80"
@@ -19,11 +23,24 @@ export default class AddProduct extends Component {
     super(props);
     this.state = {
       title: '',
-      titleError:null,
+      titleError: null,
       category: 'Mobiles',
       additionalInfo: '',
       categories: ['Mobiles', 'Laptops', 'Desktops', 'Others'],
-      price:''
+      price: ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isSuccess) {
+      Alert.alert('Success', 'Product Saved Successfully');
+      this.setState({
+        title: '',
+        titleError: null,
+        category: 'Mobiles',
+        additionalInfo: '',
+        price: ''
+      })
     }
   }
 
@@ -34,22 +51,16 @@ export default class AddProduct extends Component {
       additionalInfo,
       price
     } = this.state;
-    if(!title){
-      this.setState({titleError:'Title is required'})
+    if (!title) {
+      this.setState({ titleError: 'Title is required' })
       return;
     }
-    fetch(`${URI}/products`, {
-      body: JSON.stringify({
-        title,
-        category,
-        additionalInfo,
-        price
-      }),
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-    }).then(p => {Alert.alert('Success','Product Saved Successfully')})
+    this.props.actions.addProduct({
+      title,
+      category,
+      additionalInfo,
+      price,
+    });
   }
 
   renderCategories = () => {
@@ -61,16 +72,16 @@ export default class AddProduct extends Component {
         <TextInput
           style={styles.control}
           onChangeText={(title) => {
-            this.setState({ title,titleError:null })
-            if(title.length==0){
-              this.setState({ titleError:'Title is required' })
+            this.setState({ title, titleError: null })
+            if (title.length == 0) {
+              this.setState({ titleError: 'Title is required' })
             }
           }}
           value={this.state.title}
           placeholder="Product Name"
           placeholderTextColor="grey"
         />
-        {this.state.titleError && <Text style={{color:'red'}}>Title is required</Text>}
+        {this.state.titleError && <Text style={{ color: 'red' }}>Title is required</Text>}
         <TextInput
           numberOfLines={5}
           onChangeText={(additionalInfo) => this.setState({ additionalInfo })}
@@ -109,24 +120,41 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     backgroundColor: '#ffffff',
   },
-  control:{
+  control: {
     ...Platform.select({
-      android:{
-        height:40
+      android: {
+        height: 40
       },
-      ios:{
-        borderBottomWidth:StyleSheet.hairlineWidth,
-        borderBottomColor:'grey',
-        marginTop:20,
-        marginBottom:20
+      ios: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'grey',
+        marginTop: 20,
+        marginBottom: 20
       }
     })
   },
-  additionalInfo:{
+  additionalInfo: {
     ...Platform.select({
-      ios:{
-        height:80
+      ios: {
+        height: 80
       }
     })
   }
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(productActionCreators, dispatch)
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    isSuccess: state.productState.isSuccess,
+    isLoading: state.productState.isLoading,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  AddProduct
+);
