@@ -11,6 +11,7 @@ import {
     SEARCH_PRODUCTS,
     SEARCH_PRODUCTS_SUCCESS,
     SEARCH_PRODUCTS_FAILURE,
+    ADD_WISHLIST
 } from "../actionTypes/product";
 
 const inititalState = {
@@ -61,7 +62,7 @@ export default (prevState = inititalState, action) => {
             }
         case SEARCH_PRODUCTS:
             return { ...prevState,
-                isLoading: true,
+                isLoading: prevState.products.length > 0 ? false:true,
                 page: action.page,
                 searchKey: action.searchKey
             }
@@ -69,6 +70,11 @@ export default (prevState = inititalState, action) => {
             return { ...prevState,
                 isLoading: false,
                 searchProducts: prevState.searchProducts.concat(action.products)
+            }
+        }
+        case ADD_WISHLIST: {
+            return { ...prevState,
+                products: [...action.products]
             }
         }
         case GET_PRODUCTS_FAILURE:

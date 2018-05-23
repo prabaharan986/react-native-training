@@ -18,7 +18,6 @@ class ProductDetail extends React.Component {
 
   componentDidMount() {
     let { id } = this.props.navigation.state.params;
-    console.log(id);
     this.props.actions.getProduct(id);
   }
 

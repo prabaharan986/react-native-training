@@ -11,6 +11,7 @@ import {
     SEARCH_PRODUCTS,
     SEARCH_PRODUCTS_SUCCESS,
     SEARCH_PRODUCTS_FAILURE,
+    ADD_WISHLIST
 } from "../actionTypes/product";
 
 export function getProducts(page, limit) {
@@ -97,5 +98,12 @@ export function searchProductsFailure(error) {
     return {
         type: SEARCH_PRODUCTS_FAILURE,
         error
+    }
+}
+
+export function addWishList(products) {
+    return {
+        type: ADD_WISHLIST,
+        products
     }
 }

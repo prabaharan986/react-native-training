@@ -30,7 +30,6 @@ class ProductListItem extends React.PureComponent {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          console.log("Navigating to detail for id ", id);
           navigation.navigate("Detail", { id });
         }}
       >

@@ -24,12 +24,15 @@ class ProductListWithFlatList extends Component {
   }
 
   onWishTapped = id => {
-    // TODO: when user taps on the heart icon, you 
-    // need to change the icon to full heart, which is 
-    // already handled in ProductListItem based on wish property
-    // you need to set the wish property to true for the tapped product
-    // which is already in the state
-    // implement above using react redux
+    let product = this.props.products.filter((item)=>{
+      if(item.id === id){
+        item['wish'] = true;
+      }
+      return item;
+    });
+    if(product.length){
+      this.props.actions.addWishList(product)
+    }
   };
 
   _getProducts = (page = 1, limit = 8) => {
@@ -62,7 +65,6 @@ class ProductListWithFlatList extends Component {
   };
 
   _onRefresh = () => {
-    //this.setState({ isRefreshing: true });
     this._getProducts();
   };
 

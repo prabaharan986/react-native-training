@@ -30,12 +30,12 @@ class Search extends Component {
         this.setState({
             searchValue
         }, function () {
-            this.props.actions.searchProducts(searchValue, this.props.page, this.props.limit);
+            this.props.actions.searchProducts(searchValue, 1, this.props.limit);
         });
     }
 
     _getProducts = (page = 1, limit = 8) => {
-        this.props.actions.searchProducts(page, limit);
+        this.props.actions.searchProducts(this.state.searchValue, page, limit);
     };
 
     /*  flat list supporting methods */
@@ -64,8 +64,7 @@ class Search extends Component {
     };
 
     _onRefresh = () => {
-        //this.setState({ isRefreshing: true });
-        this._getProducts();
+        this._getProducts(++this.props.page, this.props.limit);
     };
 
     _renderRefreshControl() {
@@ -81,9 +80,6 @@ class Search extends Component {
     }
 
     /*  flat list supporting methods - END */
-
-
-
 
     render() {
         const { searchValue } = this.state;
