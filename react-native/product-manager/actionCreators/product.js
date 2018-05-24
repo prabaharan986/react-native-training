@@ -8,6 +8,9 @@ import {
     ADD_PRODUCT,
     ADD_PRODUCT_SUCCESS,
     ADD_PRODUCT_FAILURE,
+    DELETE_PRODUCT,
+    DELETE_PRODUCT_SUCCESS,
+    DELETE_PRODUCT_FAILURE,
     SEARCH_PRODUCTS,
     SEARCH_PRODUCTS_SUCCESS,
     SEARCH_PRODUCTS_FAILURE,
@@ -78,6 +81,26 @@ export function addProductFailure(error) {
     }
 }
 
+export function deleteProduct(id) {
+    return {
+        type: DELETE_PRODUCT,
+        id
+    }
+}
+
+export function deleteProductSuccess() {
+    return {
+        type: DELETE_PRODUCT_SUCCESS,
+    }
+}
+
+export function deleteProductFailure(error) {
+    return {
+        type: DELETE_PRODUCT_FAILURE,
+        error
+    }
+}
+
 export function searchProducts(searchKey, page, limit) {
     return {
         type: SEARCH_PRODUCTS,
@@ -101,9 +124,10 @@ export function searchProductsFailure(error) {
     }
 }
 
-export function addWishList(products) {
+export function addWishList(products, reducerKey) {
     return {
         type: ADD_WISHLIST,
-        products
+        products,
+        reducerKey
     }
 }

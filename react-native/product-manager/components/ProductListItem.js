@@ -11,10 +11,10 @@ import {
   Alert
 } from "react-native";
 
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 class ProductListItem extends React.PureComponent {
-  
+
   render() {
     let {
       id,
@@ -24,7 +24,9 @@ class ProductListItem extends React.PureComponent {
       price,
       rating,
       wish = true,
-      onWishTapped
+      onWishTapped,
+      isAdmin = false,
+      onDelete,
     } = this.props;
     return (
       <TouchableOpacity
@@ -46,15 +48,24 @@ class ProductListItem extends React.PureComponent {
               >
                 {title}
               </Text>
-
-              <Ionicons
-                name={wish ? "md-heart" : "md-heart-outline"}
-                size={32}
-                color="#00ff80"
-                style={{ marginRight: 10 }}
-                hitSlop={{ top: 40, left: 40, right: 40, bottom: 40 }}
-                onPress={() => onWishTapped(id)}
-              />
+              {isAdmin ?
+                <MaterialIcons
+                  name="delete"
+                  size={32}
+                  color="#F02C1C"
+                  style={{ marginRight: 10 }}
+                  hitSlop={{ top: 40, left: 40, right: 40, bottom: 40 }}
+                  onPress={() => onDelete(id)}
+                /> :
+                <Ionicons
+                  name={wish ? "md-heart" : "md-heart-outline"}
+                  size={32}
+                  color="#00ff80"
+                  style={{ marginRight: 10 }}
+                  hitSlop={{ top: 40, left: 40, right: 40, bottom: 40 }}
+                  onPress={() => onWishTapped(id)}
+                />
+              }
             </View>
             <View style={styles.rating}>
               <Text style={{ color: "#fff", marginRight: 4 }}>{rating || "NA"}</Text>
@@ -95,7 +106,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     paddingTop: 20,
-    justifyContent:'space-between'
+    justifyContent: 'space-between'
   },
   rating: {
     borderRadius: 5,

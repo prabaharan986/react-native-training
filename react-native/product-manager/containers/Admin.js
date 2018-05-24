@@ -14,7 +14,7 @@ import * as productActionCreators from "../actionCreators/product";
 import config from '../config';
 
 let URI = config.baseUrl;
-class ProductListWithFlatList extends Component {
+class Admin extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,16 +23,8 @@ class ProductListWithFlatList extends Component {
     this.props.actions.getProducts(this.props.page, this.props.limit);
   }
 
-  onWishTapped = id => {
-    let product = this.props.products.filter((item)=>{
-      if(item.id === id){
-        item['wish'] = true;
-      }
-      return item;
-    });
-    if(product.length){
-      this.props.actions.addWishList(product, 'products');
-    }
+  onDelete = id => {
+    this.props.actions.deleteProduct(id);
   };
 
   _getProducts = (page = 1, limit = 8) => {
@@ -55,7 +47,8 @@ class ProductListWithFlatList extends Component {
         rating={item.rating}
         price={item.price}
         wish={item.wish || false}
-        onWishTapped={this.onWishTapped}
+        onDelete={this.onDelete}
+        isAdmin = {true}
       />
     );
   };
@@ -119,5 +112,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ProductListWithFlatList
+  Admin
 );

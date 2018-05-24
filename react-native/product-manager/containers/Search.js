@@ -34,6 +34,18 @@ class Search extends Component {
         });
     }
 
+    onWishTapped = id => {
+        let product = this.props.products.filter((item)=>{
+          if(item.id === id){
+            item['wish'] = true;
+          }
+          return item;
+        });
+        if(product.length){
+          this.props.actions.addWishList(product, 'searchProducts');
+        }
+      };
+
     _getProducts = (page = 1, limit = 8) => {
         this.props.actions.searchProducts(this.state.searchValue, page, limit);
     };

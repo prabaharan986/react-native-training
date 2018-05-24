@@ -10,6 +10,7 @@ import ProductDetail from "./ProductDetail";
 import AddProduct from "./AddProduct";
 import StoreMap from "./StoreMap";
 import Search from './Search';
+import Admin from './Admin';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import ProductListWithFlatList from "./ProductListWithFlatList";
 
@@ -64,6 +65,9 @@ const SearchStack = createStackNavigator(
   {
     Search: {
       screen: Search
+    },
+    Detail: {
+      screen: ProductDetail
     }
   },
   {
@@ -82,12 +86,38 @@ const SearchStack = createStackNavigator(
   }
 );
 
+const AdminStack = createStackNavigator(
+  {
+    Admin: {
+      screen: Admin
+    },
+    Detail: {
+      screen: ProductDetail
+    }
+  },
+  {
+    initialRouteName: "Admin",
+    navigationOptions: {
+      title: "Admin",
+      headerStyle: {
+        backgroundColor: "#00ff80"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        textAlign: "center"
+      }
+    }
+  }
+);
+
 export const AppNavigator = createBottomTabNavigator(
   {
     List: ListStack,
     Add: AddStack,
     Search: SearchStack,
     Stores: StoreMap,
+    Admin: AdminStack,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -100,7 +130,10 @@ export const AppNavigator = createBottomTabNavigator(
           iconName = `ios-add-circle${focused ? "" : "-outline"}`;
         } else if (routeName === "Search") {
           iconName = `ios-search${focused ? "" : "-outline"}`;
-        } else if (routeName === "Stores") {
+        } else if (routeName === "Admin") {
+          iconName = `ios-person${focused ? "" : "-outline"}`;
+        }  
+        else if (routeName === "Stores") {
           return (
             <MaterialIcons
               name="local-grocery-store"
