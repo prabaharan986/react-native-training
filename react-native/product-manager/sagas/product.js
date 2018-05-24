@@ -58,7 +58,7 @@ function* deleteProduct(action) {
             },
         }).then(r => r.json());
         
-        yield put(actionCreators.deleteProductSuccess())
+        yield put(actionCreators.deleteProductSuccess(action.id))
     } catch (error) {
         yield put(actionCreators.deleteProductFailure(error))
     }

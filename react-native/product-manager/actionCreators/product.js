@@ -88,9 +88,10 @@ export function deleteProduct(id) {
     }
 }
 
-export function deleteProductSuccess() {
+export function deleteProductSuccess(id) {
     return {
         type: DELETE_PRODUCT_SUCCESS,
+        id
     }
 }
 

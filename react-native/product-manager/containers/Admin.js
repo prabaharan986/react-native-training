@@ -20,11 +20,27 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.getProducts(this.props.page, this.props.limit);
+    if(this.props.products.length < 0) {
+      this.props.actions.getProducts(this.props.page, this.props.limit);
+    }
   }
 
   onDelete = id => {
-    this.props.actions.deleteProduct(id);
+    Alert.alert(
+      "Confimation",
+      "Are you sure want to delete",
+      [
+        {
+          text: "Ok",
+          onPress: () => { 
+            this.props.actions.deleteProduct(id); 
+          }
+        },
+        {
+          text: "Cancel"
+        }
+      ]
+    )
   };
 
   _getProducts = (page = 1, limit = 8) => {
@@ -48,7 +64,7 @@ class Admin extends Component {
         price={item.price}
         wish={item.wish || false}
         onDelete={this.onDelete}
-        isAdmin = {true}
+        isAdmin={true}
       />
     );
   };
@@ -77,19 +93,19 @@ class Admin extends Component {
 
   render() {
     return (
-      <View style={{flex:1,backgroundColor:'#fff'}}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         {this.props.isLoading ? (
           <ActivityIndicator size="large" color="#00ff80" />
         ) : (
-          <FlatList
-            data={this.props.products}
-            renderItem={this._renderItem}
-            keyExtractor={this._keyExtractor}
-            onEndReachedThreshold={0.5}
-            onEndReached={this._getMore}
-            refreshControl={this._renderRefreshControl()}
-          />
-        )}
+            <FlatList
+              data={this.props.products}
+              renderItem={this._renderItem}
+              keyExtractor={this._keyExtractor}
+              onEndReachedThreshold={0.5}
+              onEndReached={this._getMore}
+              refreshControl={this._renderRefreshControl()}
+            />
+          )}
       </View>
     );
   }

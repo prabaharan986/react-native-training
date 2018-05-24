@@ -37,12 +37,14 @@ export default (prevState = inititalState, action) => {
                 isLoading: prevState.products.length > 0 ? false : true,
                 page: action.page
             }
+
         case GET_PRODUCTS_SUCCESS:
             return {
                 ...prevState,
                 isLoading: false,
                 products: prevState.products.concat(action.products)
             }
+            
         case GET_PRODUCT:
             return {
                 ...prevState,
@@ -75,12 +77,15 @@ export default (prevState = inititalState, action) => {
                 isLoading: true,
                 isSuccess: false,
             }
-        case DELETE_PRODUCT_SUCCESS:
+
+        case DELETE_PRODUCT_SUCCESS: {
             return {
                 ...prevState,
                 isLoading: false,
                 isSuccess: true,
+                products: prevState.products.filter((item)=>{ return item.id !== action.id})  
             }
+        }    
         case SEARCH_PRODUCTS:
             return {
                 ...prevState,
